@@ -2,7 +2,8 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>Design of HX</h1>
+    <h1>Design of Shell and Tube Heat Exchanger</h1>
+    <h2>by Kern's Method</h2>
   </div>
 </header>
 
@@ -13,88 +14,90 @@
       <fieldset class="col-md-6"><legend>Hot Fluid</legend>
         <form class="form-inline">
           <label for="hotFluid">Hot Fluid:</label>
-          <select class="form-group" ng-model="hot.material" ng-options="option for option in hotFluidOptions"></select>
+          <select class="form-control" ng-model="hot.material" ng-options="option for option in hotFluidOptions"></select>
         </form>
         <p ng-bind="hot.side"></p>
         <button ng-click="switchSides()">Switch Sides</button>
         <br><br>
         <form class="form-inline">
-          <input type="number" step="any" ng-model="hot.temp.In.input"></input>
-          <select class="form-group"ng-model="hot.temp.In.unit" ng-options="option for option in tempOptions"></select>
-          <p>{{hot.temp.In.value}}</p>
-          <input type="number" step="any"ng-model="hot.temp.Out.input"></input>
-          <select ng-model="hot.temp.Out.unit" ng-options="option for option in tempOptions"></select>
-          <p>{{hot.temp.Out.value}}</p>
+          <input class="form-control" type="number" step="any" ng-model="hot.temp.In.input"></input>
+          <select class="form-control" class="form-group"ng-model="hot.temp.In.unit" ng-options="option for option in tempOptions"></select>
+          <p>{{hot.temp.In.value | number}}</p>
+          <input class="form-control" type="number" step="any"ng-model="hot.temp.Out.input"></input>
+          <select class="form-control" ng-model="hot.temp.Out.unit" ng-options="option for option in tempOptions"></select>
+          <p>{{hot.temp.Out.value | number}}</p>
         </form>
         <form class="form-inline">
           <div class="form-group">
             <label>Density</label>
-            <input ng-model="hot.density.input" type="number" step="any">
-            <select ng-model="hot.density.unit" ng-options="option for option in densityOptions"></select>
-            <p>{{hot.density.value}}</p>
+            <input class="form-control" ng-model="hot.density.input" type="number" step="any">
+            <select class="form-control" ng-model="hot.density.unit" ng-options="option for option in densityOptions"></select>
+            <p>{{hot.density.value | number}}</p>
             <br>
             <label>Viscosity</label>
-            <input ng-model="hot.viscosity.input" type="number" step="any">
-            <select ng-model="hot.viscosity.unit" ng-options="option for option in viscosityOptions"></select>
-            <p>{{hot.viscosity.value}}</p>
+            <input class="form-control" ng-model="hot.viscosity.input" type="number" step="any">
+            <select class="form-control" ng-model="hot.viscosity.unit" ng-options="option for option in viscosityOptions"></select>
+            <p>{{hot.viscosity.value | number}}</p>
             <br>
             <label>Thermal Conductivity</label>
-            <input ng-model="hot.conductivity.input" type="number" step="any">
-            <select ng-model="hot.conductivity.unit" ng-options="option for option in conductivityOptions"></select>
-            <p>{{hot.conductivity.value}}</p>
+            <input class="form-control" ng-model="hot.conductivity.input" type="number" step="any">
+            <select class="form-control" ng-model="hot.conductivity.unit" ng-options="option for option in conductivityOptions"></select>
+            <p>{{hot.conductivity.value | number}}</p>
             <br>
             <label>Specific Heat</label>
-            <input ng-model="hot.specificHeat.input" type="number" step="any">
-            <select ng-model="hot.specificHeat.unit" ng-options="option for option in specificHeatOptions"></select>
-            <p>{{hot.specificHeat.value}}</p>
+            <input class="form-control" ng-model="hot.specificHeat.input" type="number" step="any">
+            <select class="form-control" ng-model="hot.specificHeat.unit" ng-options="option for option in specificHeatOptions"></select>
+            <p>{{hot.specificHeat.value | number}}</p>
             <br>
             <label>Fouling Factor</label>
-            <input ng-model="hot.foulingFactor.input" type="number" step="any">
-            <select ng-model="hot.foulingFactor.unit" ng-options="option for option in foulingFactorOptions"></select>
-            <p>{{hot.foulingFactor.value}}</p>
+            <input class="form-control" ng-model="hot.foulingFactor.input" type="number" step="any">
+            <select class="form-control" ng-model="hot.foulingFactor.unit" ng-options="option for option in foulingFactorOptions"></select>
+            <p>{{hot.foulingFactor.value | number}}</p>
             <br>
           </div>
         </form>
       </fieldset>
       <fieldset class="col-md-6"><legend>Cold Fluid</legend>
-        <label for="coldFluid">Cold Fluid:</label>
-        <select ng-model="cold.material" ng-options="option for option in coldFluidOptions"></select>
+        <div class="form-inline">
+          <label for="coldFluid">Cold Fluid:</label>
+          <select class="form-control" ng-model="cold.material" ng-options="option for option in coldFluidOptions"></select>
+        </div>
         <p ng-bind="cold.side"></p>
         <br>
         <form class="form-inline">
-          <input type="number" step="any" ng-model="cold.temp.In.input"></input>
-          <select class="form-group"ng-model="cold.temp.In.unit" ng-options="option for option in tempOptions"></select>
-          <p>{{cold.temp.In.value}}</p>
-          <input type="number" step="any"ng-model="cold.temp.Out.input"></input>
-          <select ng-model="cold.temp.Out.unit" ng-options="option for option in tempOptions"></select>
-          <p>{{cold.temp.Out.value}}</p>
+          <input class="form-control" type="number" step="any" ng-model="cold.temp.In.input"></input>
+          <select class="form-control" class="form-group"ng-model="cold.temp.In.unit" ng-options="option for option in tempOptions"></select>
+          <p>{{cold.temp.In.value | number}}</p>
+          <input class="form-control" type="number" step="any"ng-model="cold.temp.Out.input"></input>
+          <select class="form-control" ng-model="cold.temp.Out.unit" ng-options="option for option in tempOptions"></select>
+          <p>{{cold.temp.Out.value | number}}</p>
         </form>
         <form class="form-inline">
           <div class="form-group">
             <label>Density</label>
-            <input ng-model="cold.density.input" type="number" step="any">
-            <select ng-model="cold.density.unit" ng-options="option for option in densityOptions"></select>
-            <p>{{cold.density.value}}</p>
+            <input class="form-control" ng-model="cold.density.input" type="number" step="any">
+            <select class="form-control" ng-model="cold.density.unit" ng-options="option for option in densityOptions"></select>
+            <p>{{cold.density.value | number}}</p>
             <br>
             <label>Viscosity</label>
-            <input ng-model="cold.viscosity.input" type="number" step="any">
-            <select ng-model="cold.viscosity.unit" ng-options="option for option in viscosityOptions"></select>
-            <p>{{cold.viscosity.value}}</p>
+            <input class="form-control" ng-model="cold.viscosity.input" type="number" step="any">
+            <select class="form-control" ng-model="cold.viscosity.unit" ng-options="option for option in viscosityOptions"></select>
+            <p>{{cold.viscosity.value | number}}</p>
             <br>
             <label>Thermal Conductivity</label>
-            <input ng-model="cold.conductivity.input" type="number" step="any">
-            <select ng-model="cold.conductivity.unit" ng-options="option for option in conductivityOptions"></select>
-            <p>{{cold.conductivity.value}}</p>
+            <input class="form-control" ng-model="cold.conductivity.input" type="number" step="any">
+            <select class="form-control" ng-model="cold.conductivity.unit" ng-options="option for option in conductivityOptions"></select>
+            <p>{{cold.conductivity.value | number}}</p>
             <br>
             <label>Specific Heat</label>
-            <input ng-model="cold.specificHeat.input" type="number" step="any">
-            <select ng-model="cold.specificHeat.unit" ng-options="option for option in specificHeatOptions"></select>
-            <p>{{cold.specificHeat.value}}</p>
+            <input class="form-control" ng-model="cold.specificHeat.input" type="number" step="any">
+            <select class="form-control" ng-model="cold.specificHeat.unit" ng-options="option for option in specificHeatOptions"></select>
+            <p>{{cold.specificHeat.value | number}}</p>
             <br>
             <label>Fouling Factor</label>
-            <input ng-model="cold.foulingFactor.input" type="number" step="any">
-            <select ng-model="cold.foulingFactor.unit" ng-options="option for option in foulingFactorOptions"></select>
-            <p>{{cold.foulingFactor.value}}</p>
+            <input class="form-control" ng-model="cold.foulingFactor.input" type="number" step="any">
+            <select class="form-control" ng-model="cold.foulingFactor.unit" ng-options="option for option in foulingFactorOptions"></select>
+            <p>{{cold.foulingFactor.value | number}}</p>
             <br>
           </div>
         </form>
@@ -102,38 +105,70 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-md-4">
+      <center>
+        <img src="../../assets/images/shell.png">
+      </center>
+    </div>
+    <div class="col-md-4">
+      <center>
+        <img src="../../assets/images/1.jpg">
+      </center>
+    </div>
+    <div class="col-md-4">
+      <center>
+        <img src="../../assets/images/tube.jpg">
+      </center>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-lg-12">
       <fieldset class="col-md-12"><legend>Specify:</legend>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <input type="radio" ng-model="flow.material" value="hot">
           <label>{{hot.material}}</label>
+          
+        </div>
+        <div class="col-md-6">
           <input type="radio" ng-model="flow.material" value="cold">
           <label>{{cold.material}}</label>
         </div>
-        <div class="col-md-12">
-          <input type="radio" ng-model="flow.mode" value="mass">
-          <label>Mass Flow Rate</label>
-          <input type="radio" ng-model="flow.mode" value="volume">
-          <label>Volume Flow Rate</label>
+        <br><br>
+        <div class="col-md-12 form-inline">
+          <div class="col-md-12">
+            <center>
+              <input type="radio" ng-model="flow.mode" value="mass">
+              <label>Mass Flow Rate</label>
+              <input type="radio" ng-model="flow.mode" value="volume">
+              <label>Volume Flow Rate</label>
+              <input class="form-control" ng-model="flow.rate.input" type="number" step="any">
+              <select class="form-control" ng-model="flow.rate.unit" ng-options="option.unit for option in flowOptions"></select>
+            </center>
+          </div>
         </div>
-        <div class="col-md-12">
-          <input ng-model="flow.rate.input" type="number" step="any">
-          <select ng-model="flow.rate.unit" ng-options="option.unit for option in flowOptions"></select>
-          <p>{{flow.rate.value}}</p>
+        <br><br><br>
+        <div class="col-md-6">
+          <p>Hot Fluid Flow Rate: {{flow.rate.hotValue | number}}</p>
+        </div>
+        <div class="col-md-6">
+          <p>Cold Fluid Flow Rate: {{flow.rate.coldValue | number}}</p>
+        </div>
+        <div class="col-md-12 form-inline">
+          
           <br>
         </div>
       </fieldset>
       <fieldset class="col-md-12"><legend></legend>
-        <div class="col-md-6">
-          <input ng-model="htc.input" type="number" step="any">
-          <select ng-model="htc.unit" ng-options="option for option in heatTransferCoefficientOptions"></select>
-          <p>{{htc.value}}</p>
+        <div class="col-md-6 form-inline">
+          <input class="form-control" ng-model="htc.input" type="number" step="any">
+          <select class="form-control" ng-model="htc.unit" ng-options="option for option in heatTransferCoefficientOptions"></select>
+          <p>{{htc.value | number}}</p>
           <br>
         </div>
         <div class="col-md-6">
-          <p>R: {{R}}</p>
-          <p>S: {{S}}</p>
-          <p>fT: {{correctionFactor.value}}</p>
+          <p>R: {{R | number}}</p>
+          <p>S: {{S | number}}</p>
+          <p>fT: {{correctionFactor.value | number}}</p>
         </div>
       </fieldset>
       <fieldset class="col-md-12"><legend>LMTD Calculation</legend>
@@ -145,11 +180,11 @@
           <label>Counter-Current</label>
         </div>
         <div class="col-md-6">
-          <p>Hot Ends temp diff: {{lmtd.hotEndsTempDiff}}</p>
-          <p>Cold Ends temp diff: {{lmtd.coldEndsTempDiff}}</p>
-          <p>LMTD: {{lmtd.value}}</p>
-          <p>Corrected LMTD: {{lmtd.correctedValue}}</p>
-          <p>Heat Transfer Area: {{lmtd.heatTransferArea}}</p>
+          <p>Hot Ends temp diff: {{lmtd.hotEndsTempDiff | number}}</p>
+          <p>Cold Ends temp diff: {{lmtd.coldEndsTempDiff | number}}</p>
+          <p>LMTD: {{lmtd.value | number}}</p>
+          <p>Corrected LMTD: {{lmtd.correctedValue | number}}</p>
+          <p>Heat Transfer Area: {{lmtd.heatTransferArea | number}}</p>
         </div>
         <div>
       </fieldset>
@@ -157,104 +192,112 @@
   </div>
   <div class="row">
     <fieldset class="col-md-12"><legend>Design Specifications:</legend>
-      <div class="col-md-6">
+      <div class="col-md-6 form-inline">
         <label>Shell Diameter</label>
-        <input ng-model="design.shellDiameter.input" type="number" step="any">
-        <select ng-model="design.shellDiameter.unit" ng-options="option for option in lengthOptions"></select>
-        <p>{{design.shellDiameter.value}}</p>
+        <input class="form-control" ng-model="design.shellDiameter.input" type="number" step="any">
+        <select class="form-control" ng-model="design.shellDiameter.unit" ng-options="option for option in lengthOptions"></select>
+        <p>{{design.shellDiameter.value | number}}</p>
         <br>
         <label>Tube Clearance</label>
-        <input ng-model="design.tubeClearance.input" type="number" step="any">
-        <select ng-model="design.tubeClearance.unit" ng-options="option for option in lengthOptions"></select>
-        <p>{{design.tubeClearance.value}}</p>
+        <input class="form-control" ng-model="design.tubeClearance.input" type="number" step="any">
+        <select class="form-control" ng-model="design.tubeClearance.unit" ng-options="option for option in lengthOptions"></select>
+        <p>{{design.tubeClearance.value | number}}</p>
         <br>
         <label>Baffle Spacing</label>
-        <input ng-model="design.baffleSpacing.input" type="number" step="any">
-        <select ng-model="design.baffleSpacing.unit" ng-options="option for option in lengthOptions"></select>
-        <p>{{design.baffleSpacing.value}}</p>
+        <input class="form-control" ng-model="design.baffleSpacing.input" type="number" step="any">
+        <select class="form-control" ng-model="design.baffleSpacing.unit" ng-options="option for option in lengthOptions"></select>
+        <p>{{design.baffleSpacing.value | number}}</p>
         <br>
         <label>Tube Pitch</label>
-        <input ng-model="design.tubePitch.input" type="number" step="any">
-        <select ng-model="design.tubePitch.unit" ng-options="option for option in lengthOptions"></select>
-        <p>{{design.tubePitch.value}}</p>
+        <input class="form-control" ng-model="design.tubePitch.input" type="number" step="any">
+        <select class="form-control" ng-model="design.tubePitch.unit" ng-options="option for option in lengthOptions"></select>
+        <p>{{design.tubePitch.value | number}}</p>
         <br>
-        <p>Outer Surface Area: {{design.outerSurfaceArea}}
+        <p>Outer Surface Area: {{design.outerSurfaceArea | number}}
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 form-inline">
         <label>Length of Tube</label>
-        <input ng-model="design.tubeLength.input" type="number" step="any">
-        <select ng-model="design.tubeLength.unit" ng-options="option for option in lengthOptions"></select>
-        <p>{{design.tubeLength.value}}</p>
+        <input class="form-control" ng-model="design.tubeLength.input" type="number" step="any">
+        <select class="form-control" ng-model="design.tubeLength.unit" ng-options="option for option in lengthOptions"></select>
+        <p>{{design.tubeLength.value | number}}</p>
         <br>
         <label>Outside Dia. of Tube</label>
-        <input ng-model="design.outerDia.input" type="number" step="any">
-        <select ng-model="design.outerDia.unit" ng-options="option for option in lengthOptions"></select>
-        <p>{{design.outerDia.value}}</p>
+        <input class="form-control" ng-model="design.outerDia.input" type="number" step="any">
+        <select class="form-control" ng-model="design.outerDia.unit" ng-options="option for option in lengthOptions"></select>
+        <p>{{design.outerDia.value | number}}</p>
         <br>
         <label>Thickness of Tube</label>
-        <select ng-model="design.thickness.input" ng-options="option for option in gaugeRangeOptions"></select>
-        <select ng-model="design.thickness.unit" ng-options="option for option in gaugeOptions"></select>
-        <p>{{design.thickness.value}}</p>
+        <select class="form-control" ng-model="design.thickness.input" ng-options="option for option in gaugeRangeOptions"></select>
+        <select class="form-control" ng-model="design.thickness.unit" ng-options="option for option in gaugeOptions"></select>
+        <p>{{design.thickness.value | number}}</p>
         <br>
         <label>Inside Dia. of Tube</label>
-        <p>{{design.innerDia.value}}</p>
+        <p>{{design.innerDia.value | number}}</p>
         <br>
       </div>
     </fieldset>
     <fieldset class="col-md-12">
-      <div class="col-md-6">
+      <div class="col-md-6 form-inline">
         <p>Pitch type:</p>
         <input type="radio" ng-model="design.pitchType" value="triangular">
         <label>Triangular</label>
         <input type="radio" ng-model="design.pitchType" value="square">
         <label>Square</label>
         <p>Equivalent Diameter:</p>
-        <p>{{design.equivalentDiameter}}</p>
+        <p>{{design.equivalentDiameter | number}}</p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 form-inline">
         <p>No. of Tubes:</p>
-        <input ng-model="design.noOfTubes" type="number" step="any">
+        <input class="form-control" ng-model="design.noOfTubes" type="number" step="any">
         <p>No. of Passes:</p>
-        <select ng-model="design.noOfPasses" ng-options="option for option in passesOptions"></select>
+        <select class="form-control" ng-model="design.noOfPasses" ng-options="option for option in passesOptions"></select>
         <p>Tubes per Pass:</p>
-        <p>{{design.tubesPerPass}}</p>
+        <p>{{design.tubesPerPass | number}}</p>
       </div>
       <div class="col-md-6">
-        <p>Flow Area: {{design.flowArea}}</p>
-        <p>Flow Area Of Tube: {{design.flowAreaOfTube}}</p>
-        <p>Linear Velocity Of Tube: {{design.linearVelocityOfTube}}</p>
-        <p>Mass Velocity: {{design.massVelocity}}</p>
-        <p>Mass velocity of Tube: {{design.massVelocityOfTube}}</p>
+        <p>Flow Area: {{design.flowArea | number}}</p>
+        <p>Flow Area Of Tube: {{design.flowAreaOfTube | number}}</p>
+        <p>Linear Velocity Of Tube: {{design.linearVelocityOfTube | number}}</p>
+        <p>Mass Velocity: {{design.massVelocity | number}}</p>
+        <p>Mass velocity of Tube: {{design.massVelocityOfTube | number}}</p>
       </div>
     </fieldset>
   </div>
   <div class="row">
     <fieldset><legend>Heat Transfer Coefficient Calculations:</legend>
       <div class="col-md-6">
-        <p>Shell Side Reynolds Number: {{shellReynolds}}</p>
-        <p>Shell Side Prandtl Number: {{shellPrandtl}}</p>
-        <p>Shell Side Nusselt Number: {{nusseltNumberShell}}</p>
-        <p>Shell Side HT Coefficient: {{shellSideHTCoefficient}}</p>
-        <p>Overall Heat Transfer Coefficient: {{overallHTCoefficient}}</p>
+        <p>Shell Side Reynolds Number: {{shellReynolds | number}}</p>
+        <p>Shell Side Prandtl Number: {{shellPrandtl | number}}</p>
+        <p>Shell Side Nusselt Number: {{nusseltNumberShell | number}}</p>
+        <p>Shell Side HT Coefficient: {{shellSideHTCoefficient | number}}</p>
+        <p>Overall Heat Transfer Coefficient: {{overallHTCoefficient | number}}</p>
       </div>
       <div class="col-md-6">
-        <p>Tube Side Reynolds Number: {{tubeReynolds}}</p>
-        <p>Tube Side Prandtl Number: {{tubePrandtl}}</p>
+        <p>Tube Side Reynolds Number: {{tubeReynolds | number}}</p>
+        <p>Tube Side Prandtl Number: {{tubePrandtl | number}}</p>
         <p><b>{{tubeFlow}}</b></p>
-        <p>Tube Side Nusselt Number: {{nusseltNumberTube}}</p>
-        <p>Tube Side HT Coefficient: {{tubeSideHTCoefficient}}</p>
+        <p>Tube Side Nusselt Number: {{nusseltNumberTube | number}}</p>
+        <p>Tube Side HT Coefficient: {{tubeSideHTCoefficient | number}}</p>
       </div>
     </fieldset>
     <fieldset><legend>Pressure Drop Calculation:</legend>
-      <div class="col-md-6">
-        <p>Shell Friction Factor: {{shellFrictionFactor}}</p>
-        <p>Shell Pressure Drop: {{shellPressureDrop}}</p>
+      <div class="col-md-6 form-inline">
+        <label>Viscosity at Bulk Temperature:</label>
+        <input class="form-control" ng-model="viscosityAtBulk" type="number" step="any">
+      </div>
+      <div class="col-md-6 form-inline">
+        <label>Viscosity at Wall Temperature:</label>
+        <input class="form-control" ng-model="viscosityAtWall" type="number" step="any">
       </div>
       <div class="col-md-6">
-        <p>Tube Friction Factor: {{tubeFrictionFactor}}</p>
-        <p>Tube Pressure Drop: {{tubePressureDrop}}</p>
-        <p>Tube Return Loss: {{tubeReturnLoss}}</p>
-        <p>Total Tube Pressure Drop: {{tubeTotalDrop}}</p>
+        <br>
+        <p>Shell Friction Factor: {{shellFrictionFactor | number}}</p>
+        <p>Shell Pressure Drop: {{shellPressureDrop | number}}</p>
+      </div>
+      <div class="col-md-6">
+        <br>
+        <p>Tube Friction Factor: {{tubeFrictionFactor | number}}</p>
+        <p>Tube Pressure Drop: {{tubePressureDrop | number}}</p>
       </div>
     </fieldset>
   </div>
@@ -262,8 +305,6 @@
 
 <footer class="footer">
   <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+      <p></p>
   </div>
 </footer>

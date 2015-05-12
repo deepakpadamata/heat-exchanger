@@ -1035,6 +1035,7 @@ var passesOptions =
 	"6",
 	"8",
 	"10",]
+	
 angular.module('hxApp')
   .config(function ($stateProvider) {
     $stateProvider

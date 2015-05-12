@@ -247,7 +247,7 @@ angular.module('hxApp')
       }
     })
 
-    $scope.$watchGroup(['hot.temp.In.value', 'hot.temp.Out.value', 'cold.temp.In.value', 'cold.temp.Out.value', 'hot.side', 'cold.side', 'correctionFactor.input', 'correctionFactor.mode'], function () {
+    $scope.$watchGroup(['hot.temp.In.value', 'hot.temp.Out.value', 'cold.temp.In.value', 'cold.temp.Out.value', 'hot.side', 'cold.side', 'lmtd.mode', 'correctionFactor.input', 'correctionFactor.mode'], function () {
       if ($scope.hot.side === "Shell Side") {
         $scope.R = ($scope.hot.temp.In.value - $scope.hot.temp.Out.value)/($scope.cold.temp.Out.value - $scope.cold.temp.In.value);
         $scope.S = ($scope.cold.temp.Out.value - $scope.cold.temp.In.value)/($scope.hot.temp.In.value - $scope.cold.temp.In.value);
@@ -259,7 +259,10 @@ angular.module('hxApp')
       var R = $scope.R,
           S = $scope.S,
           T = Math.sqrt(Math.pow(R, 2) + 1);
-      if ($scope.correctionFactor.mode === "auto") $scope.correctionFactor.value = T * Math.log((1-S) / (1 - R * S)) / ((R - 1) * Math.log( (2 - S*(R+1-T)) / (2 - S*(R+1+T)) ));
+      if ($scope.correctionFactor.mode === "auto"){
+        if ($scope.lmtd.mode === "parallel")       $scope.correctionFactor.value = T * Math.log((1-S) / (1 - R * S)) / ((R - 1) * Math.log( (2 - S*(R+1-T)) / (2 - S*(R+1+T)) ));
+        if ($scope.lmtd.mode === "counterCurrent") $scope.correctionFactor.value = 1;
+      }
       if ($scope.correctionFactor.mode === "manual") $scope.correctionFactor.value = $scope.correctionFactor.input;
     })
 
@@ -363,7 +366,7 @@ angular.module('hxApp')
       $scope.design.massVelocity = $scope.flow.rate.hotValue / $scope.design.flowArea;
     }, true)
 
-    $scope.$watchGroup(['design.equivalentDiameter', 'design.massVelocity', 'design.linearVelocityOfTube', 'design.innerDia.value', 'hot.side', 'hot.viscosity.value', 'hot.specificHeat.value', 'hot.conductivity.value', 'hot.density.value', 'cold.side', 'cold.viscosity.value', 'cold.specificHeat.value', 'cold.conductivity.value', 'cold.density.value'], function () {
+    $scope.$watchGroup(['shellFrictionFactor', 'tubeFrictionFactor', 'design.equivalentDiameter', 'design.massVelocity', 'design.linearVelocityOfTube', 'design.innerDia.value', 'hot.side', 'hot.viscosity.value', 'hot.specificHeat.value', 'hot.conductivity.value', 'hot.density.value', 'cold.side', 'cold.viscosity.value', 'cold.specificHeat.value', 'cold.conductivity.value', 'cold.density.value'], function () {
       if ($scope.hot.side === "Shell Side"){
         $scope.hot.reynolds = $scope.design.equivalentDiameter * $scope.design.massVelocity / $scope.hot.viscosity.value;
         $scope.hot.prandtl = $scope.hot.specificHeat.value * $scope.hot.viscosity.value / $scope.hot.conductivity.value;
@@ -373,17 +376,18 @@ angular.module('hxApp')
 
         $scope.nusseltNumberShell = 0.36 * Math.pow($scope.hot.reynolds , 0.55) * Math.pow($scope.hot.prandtl, 0.33);
 
+
         if($scope.cold.reynolds < 2300){
           $scope.tubeFlow = "Laminar Flow";
-          $scope.nusseltNumberTube = 3.66 + (0.0668 * $scope.design.innerDia.value * $scope.cold.reynolds * $scope.cold.prandtl);
+          $scope.nusseltNumberTube = 1.86 * Math.pow(($scope.cold.reynolds * $scope.cold.prandtl * $scope.design.innerDia.value / $scope.design.tubeLength.value), 1/3);
         } 
         if($scope.cold.reynolds > 2300 && $scope.cold.reynolds < 4000){
          $scope.tubeFlow = "Transitional Flow";
-         $scope.nusseltNumberTube = 0;
+         $scope.nusseltNumberTube = ($scope.tubeFrictionFactor / 2) * $scope.cold.reynolds * $scope.cold.prandtl / (1.07 + 12.7 * Math.pow($scope.tubeFrictionFactor/2, 0.5) * (Math.pow($scope.cold.prandtl, 2/3) - 1));
         }
         if($scope.cold.reynolds > 4000){
           $scope.tubeFlow = "Turbulent Flow";
-          $scope.nusseltNumberTube = 0.027 * Math.pow($scope.cold.reynolds , 0.8) * Math.pow($scope.cold.prandtl, 0.3);
+          $scope.nusseltNumberTube = ($scope.tubeFrictionFactor / 2) * $scope.cold.reynolds * $scope.cold.prandtl / (1.07 + 12.7 * Math.pow($scope.tubeFrictionFactor/2, 0.5) * (Math.pow($scope.cold.prandtl, 2/3) - 1));
         }
 
         $scope.shellReynolds = $scope.hot.reynolds;
@@ -406,15 +410,15 @@ angular.module('hxApp')
 
         if($scope.hot.reynolds < 2300){
           $scope.tubeFlow = "Laminar Flow";
-          $scope.nusseltNumberTube = 3.66 + (0.0668 * $scope.design.innerDia.value * $scope.hot.reynolds * $scope.hot.prandtl);
+          $scope.nusseltNumberTube = 1.86 * Math.pow(($scope.hot.reynolds * $scope.hot.prandtl * $scope.design.innerDia.value / $scope.design.tubeLength.value), 1/3);
         } 
         if($scope.hot.reynolds > 2300 && $scope.hot.reynolds < 4000){
          $scope.tubeFlow = "Transitional Flow";
-         $scope.nusseltNumberTube = 0;
+         $scope.nusseltNumberTube = ($scope.tubeFrictionFactor / 2) * $scope.hot.reynolds * $scope.hot.prandtl / (1.07 + 12.7 * Math.pow($scope.tubeFrictionFactor/2, 0.5) * (Math.pow($scope.hot.prandtl, 2/3) - 1));
         }
         if($scope.hot.reynolds > 4000){
           $scope.tubeFlow = "Turbulent Flow";
-          $scope.nusseltNumberTube = 0.027 * Math.pow($scope.hot.reynolds , 0.8) * Math.pow($scope.hot.prandtl, 0.3);
+          $scope.nusseltNumberTube = ($scope.tubeFrictionFactor / 2) * $scope.hot.reynolds * $scope.hot.prandtl / (1.07 + 12.7 * Math.pow($scope.tubeFrictionFactor/2, 0.5) * (Math.pow($scope.hot.prandtl, 2/3) - 1));
         }
 
         $scope.shellReynolds = $scope.cold.reynolds;
@@ -427,22 +431,22 @@ angular.module('hxApp')
       }
     })
 
-    $scope.$watchGroup(['shellReynolds', 'tubeReynolds', 'shellFrictionFactor', 'tubeFrictionFactor', 'hot.density.value', 'cold.density.value', 'design.massVelocityOfTube', 'design.linearVelocityOfTube', 'design.tubeLength.value', 'design.massVelocity', 'design.baffleSpacing.value', 'design.shellDiameter.value', 'design.noOfPasses', ], function () {
+    $scope.$watchGroup(['viscosityAtBulk', 'viscosityAtWall', 'shellReynolds', 'tubeReynolds', 'shellFrictionFactor', 'tubeFrictionFactor', 'hot.density.value', 'cold.density.value', 'design.massVelocityOfTube', 'design.linearVelocityOfTube', 'design.tubeLength.value', 'design.massVelocity', 'design.baffleSpacing.value', 'design.shellDiameter.value', 'design.noOfPasses', ], function () {
       $scope.shellFrictionFactor = Math.exp(0.576 - 0.19*Math.log($scope.shellReynolds));
       $scope.tubeFrictionFactor = Math.pow((1.58 * Math.log($scope.tubeReynolds) - 3.28), -2);
 
+      var phiS = Math.pow(($scope.viscosityAtBulk / $scope.viscosityAtWall), 0.14);
+
       if($scope.hot.side === "Shell Side"){
-        $scope.shellPressureDrop = ($scope.shellFrictionFactor * Math.pow($scope.design.massVelocity, 2) * ($scope.design.tubeLength.value / $scope.design.baffleSpacing.value) * $scope.design.shellDiameter.value) / (2 * 9.8 * $scope.hot.density.value * $scope.design.equivalentDiameter);
-        $scope.tubePressureDrop = ($scope.tubeFrictionFactor * Math.pow($scope.design.massVelocityOfTube, 2) * $scope.design.tubeLength.value * $scope.design.noOfPasses) / (2 * 9.8 * $scope.cold.density.value * $scope.design.innerDia.value);
+        $scope.shellPressureDrop = ($scope.shellFrictionFactor * Math.pow($scope.design.massVelocity, 2) * ($scope.design.tubeLength.value / $scope.design.baffleSpacing.value) * $scope.design.shellDiameter )/(2 * $scope.hot.density.value * $scope.design.equivalentDiameter * phiS);
+        $scope.tubePressureDrop = (2 * (($scope.tubeFrictionFactor * $scope.design.tubeLength * $scope.design.noOfPasses / $scope.design.innerDia.value) + $scope.design.noOfPasses) * $scope.hot.density.value * Math.pow($scope.design.linearVelocityOfTube, 2))
         $scope.tubeReturnLoss = (4 * $scope.design.noOfPasses * Math.pow($scope.design.linearVelocityOfTube, 2) * $scope.cold.density.value) / (2 * 9.8);
         $scope.tubeTotalDrop = $scope.tubePressureDrop + $scope.tubeReturnLoss;
       }
 
       if($scope.hot.side === "Tube Side"){
-        $scope.shellPressureDrop = ($scope.shellFrictionFactor * Math.pow($scope.design.massVelocity, 2) * ($scope.design.tubeLength.value / $scope.design.baffleSpacing.value) * $scope.design.shellDiameter.value) / (2 * 9.8 * $scope.cold.density.value * $scope.design.equivalentDiameter);
-        $scope.tubePressureDrop = ($scope.tubeFrictionFactor * Math.pow($scope.design.massVelocityOfTube, 2) * $scope.design.tubeLength.value * $scope.design.noOfPasses) / (2 * 9.8 * $scope.hot.density.value * $scope.design.innerDia.value);
-        $scope.tubeReturnLoss = (4 * $scope.design.noOfPasses * Math.pow($scope.design.linearVelocityOfTube, 2) * $scope.hot.density.value) / (2 * 9.8);
-        $scope.tubeTotalDrop = $scope.tubePressureDrop + $scope.tubeReturnLoss;
+        $scope.shellPressureDrop = ($scope.shellFrictionFactor * Math.pow($scope.design.massVelocity, 2) * ($scope.design.tubeLength.value / $scope.design.baffleSpacing.value) * $scope.design.shellDiameter )/(2 * $scope.cold.density.value * $scope.design.equivalentDiameter * phiS);
+        $scope.tubePressureDrop = (2 * (($scope.tubeFrictionFactor * $scope.design.tubeLength * $scope.design.noOfPasses / $scope.design.innerDia.value) + $scope.design.noOfPasses) * $scope.cold.density.value * Math.pow($scope.design.linearVelocityOfTube, 2))
       }1
     })
     
